@@ -7,6 +7,8 @@ from typing import List
 from .. import database
 from ..controllers import task_controller
 from ..schemas import task_schema 
+from ..models import models
+from ..utils.oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/tasks",
@@ -16,8 +18,8 @@ router = APIRouter(
 get_db = database.get_db
 
 @router.post("/", status_code=status.HTTP_201_CREATED,)
-def create(request: task_schema.TaskCreate, db: Session = Depends(get_db)):
-    return task_controller.create(request, db)
+def create(request: task_schema.TaskCreate, db: Session = Depends(get_db),user: models.User = Depends(get_current_user)):
+    return task_controller.create(request, db , user.id)
 
 @router.get("/", response_model=List[task_schema.TaskResponse])
 def get_all(db: Session = Depends(get_db)):

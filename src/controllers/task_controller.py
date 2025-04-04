@@ -7,7 +7,7 @@ from fastapi import HTTPException,status
 from ..schemas import task_schema
 from ..models import models
 
-def create(request: task_schema.TaskCreate, db: Session):
+def create(request: task_schema.TaskCreate, db: Session , user_id: int):
     if not request.category or not request.sub_category:
         raise HTTPException(status_code=400, detail="Required fields are missing")
 
@@ -20,7 +20,7 @@ def create(request: task_schema.TaskCreate, db: Session):
         duration=request.duration,
         indicators=request.indicators,
         settings=request.settings,
-        user_id=1               # Need to extract from JWT token in future
+        user_id=user_id             # Need to extract from JWT token in future
     )
 
     db.add(new_task)
