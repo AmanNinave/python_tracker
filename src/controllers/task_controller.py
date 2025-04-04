@@ -28,17 +28,17 @@ def create(request: task_schema.TaskCreate, db: Session , user_id: int):
     db.refresh(new_task)
     return {"success": True}
 
-def get_all(db: Session):
-    return db.query(models.Task).all()
+def get_all(db: Session , user_id: int):
+    return db.query(models.Task).filter(models.Task.user_id == user_id).all()
 
-def get(id: int, db: Session):
-    task = db.query(models.Task).filter(models.Task.id == id).first()
+def get(id: int, db: Session, user_id: int):
+    task = db.query(models.Task).filter((models.Task.user_id == user_id) & (models.Task.id == id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
 
-def delete(id: int, db: Session):
-    task = db.query(models.Task).filter(models.Task.id == id).first()
+def delete(id: int, db: Session, user_id: int):
+    task = db.query(models.Task).filter((models.Task.user_id == user_id) & (models.Task.id == id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
 
@@ -46,9 +46,9 @@ def delete(id: int, db: Session):
     db.commit()
     return {"success": True}
 
-def update_task(id: int, updates: task_schema.TaskUpdate, db: Session):
+def update_task(id: int, updates: task_schema.TaskUpdate, db: Session, user_id: int):
     # Check if the task exists
-    task = db.query(models.Task).filter(models.Task.id == id).first()
+    task = db.query(models.Task).filter((models.Task.user_id == user_id) & (models.Task.id == id)).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
 
