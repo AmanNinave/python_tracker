@@ -5,10 +5,17 @@ from datetime import datetime
 
 # File imports
 
-class TaskLogBase(BaseModel):
+class TaskSchduleAndLogBase(BaseModel):
+    id: int
     start_time: datetime
     end_time: Optional[datetime] = None
-    id: int
+    remarks: Optional[str] = None
+class TaskLogResponse(TaskSchduleAndLogBase):
+    pass
+
+class TaskScheduleResponse(TaskSchduleAndLogBase):
+    task_logs: List[TaskLogResponse] = []  # List of task logs associated with this schedule
+
 
 # Base Task Schema (Common fields for Task)
 class TaskBase(BaseModel):
@@ -18,9 +25,6 @@ class TaskBase(BaseModel):
 
     title: Optional[str] = None
     description: Optional[str] = None
-
-    planned_time: Optional[datetime] = None  # Planned start time of task (Optional :- will show as unplanned)
-    duration: Optional[int] = None  # Duration of task in minutes
 
     indicators: Optional[Dict[str, str]] = {}  # Dictionary to store remarks, rating, status, priority
     settings: Optional[Dict[str, str]] = {}  # Dictionary to store color, icon, type
@@ -48,9 +52,6 @@ class TaskUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
 
-    planned_time: Optional[datetime] = None  # Planned start time of task (Optional :- will show as unplanned)
-    duration: Optional[int] = None  # Duration of task in minutes
-
     indicators: Optional[Dict[str, str]] = {}  # Dictionary to store remarks, rating, status, priority
     settings: Optional[Dict[str, str]] = {}  # Dictionary to store color, icon, type
 
@@ -59,7 +60,7 @@ class TaskUpdate(BaseModel):
 class TaskResponse(TaskBase):
     id: int
     user_id:int
-    task_logs: List[TaskLogBase] = []  # List of TaskLogResponse objects
+    task_schedules: List[TaskScheduleResponse] = []  # List of TaskSchedulesResponse objects
 
     class Config:
         orm_mode = True  # Allows compatibility with SQLAlchemy ORM

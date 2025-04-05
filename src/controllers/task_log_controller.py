@@ -12,7 +12,7 @@ def create(db: Session, request: task_log_schema.TaskLogCreate):
     new_log = models.TaskLog(
         start_time=request.start_time,
         end_time=request.end_time,
-        task_id=request.task_id,
+        task_schedule_id=request.task_schedule_id,
     )
     db.add(new_log)
     db.commit()

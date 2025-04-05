@@ -14,13 +14,14 @@ def create(request: task_schema.TaskCreate, db: Session , user_id: int):
     new_task = models.Task(
         category=request.category,
         sub_category=request.sub_category,
+
         title=request.title,
         description=request.description,
-        planned_time=request.planned_time,
-        duration=request.duration,
+
         indicators=request.indicators,
         settings=request.settings,
-        user_id=user_id             # Need to extract from JWT token in future
+
+        user_id=user_id 
     )
 
     db.add(new_task)
