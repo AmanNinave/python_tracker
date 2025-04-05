@@ -30,7 +30,9 @@ class Task(Base):
     title = Column(String, nullable=True)  # Title of task
     description = Column(String, nullable=True)    # Description of task ( Intigrate with markdown later)
 
-    indicators = Column(JSON, nullable=True)  # Storing list as JSON ( remarks,rating, status:open,inprogress,closed, priority)
+    status = Column(String, default='pending') # status :- pending, inprogress, completed
+    
+    indicators = Column(JSON, nullable=True)  # Storing list as JSON ( remarks,rating, priority)
     settings = Column(JSON, nullable=True)  # Storing list as JSON ( color, icon, type)
         
     user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User

@@ -11,7 +11,7 @@ from ..models import models
 from ..utils.oauth2 import get_current_user
 
 router = APIRouter(
-    prefix="/tasks",
+    prefix="/task",
     tags=["Tasks"]
 )
 

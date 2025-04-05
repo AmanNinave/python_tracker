@@ -18,6 +18,8 @@ def create(request: task_schema.TaskCreate, db: Session , user_id: int):
         title=request.title,
         description=request.description,
 
+        status=request.status,
+
         indicators=request.indicators,
         settings=request.settings,
 
