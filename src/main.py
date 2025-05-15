@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Comment this out for Vercel deployment
-# models.Base.metadata.create_all(engine)
+models.Base.metadata.create_all(engine)
 
 app.include_router(authentication_route.router)
 app.include_router(user_route.router)

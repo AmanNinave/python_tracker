@@ -49,6 +49,7 @@ class TaskSchedule(Base):
     end_time = Column(DateTime, nullable=False)  # End time of the schedule entry
     remarks = Column(String(1000), nullable=True)  # Remarks for the schedule entry
 
+    user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User
     task_id = Column(Integer, ForeignKey("tasks.id"))  # Foreign key to Tasks
 
     task = relationship("Task", back_populates="task_schedules")  # Relationship with Event
@@ -64,6 +65,7 @@ class TaskLog(Base):
     end_time = Column(DateTime, nullable=True)  # End time of the log entry
     remarks = Column(String(1000), nullable=True)  # Remarks for the log entry
 
+    user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User
     task_schedule_id = Column(Integer, ForeignKey("task_schedule.id"))  # Foreign key to TaskSchedule
 
     task_schedule = relationship("TaskSchedule", back_populates="task_logs")  # Relationship with TaskSchedule
