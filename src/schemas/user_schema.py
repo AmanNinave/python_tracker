@@ -13,6 +13,6 @@ class ShowUser(BaseModel):
     email:str
     # tasks: List[TaskResponse] = []  # Uncomment this line if we want to include tasks in the response ( not needed for now )
     class Config():
-        orm_mode = True
+        from_attributes = True
 
 

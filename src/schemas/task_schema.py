@@ -36,7 +36,6 @@ class Task(TaskBase):
     id: int
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -44,7 +43,7 @@ class Task(TaskBase):
 class TaskCreate(TaskBase):
     pass
     class Config():
-            orm_mode = True
+            from_attributes = True
 
 # Schema for Updating an Task (Allows Partial Updates)
 class TaskUpdate(BaseModel):
@@ -67,6 +66,6 @@ class TaskResponse(TaskBase):
     task_schedules: List[TaskScheduleResponse] = []  # List of TaskSchedulesResponse objects
 
     class Config:
-        orm_mode = True  # Allows compatibility with SQLAlchemy ORM
+        from_attributes = True  # Allows compatibility with SQLAlchemy ORM
 
 

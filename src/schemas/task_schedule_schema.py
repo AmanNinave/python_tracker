@@ -27,6 +27,5 @@ class TaskScheduleResponse(TaskScheduleBase):
     task_logs: List[TaskLogResponse] = []  # List of task logs associated with this schedule
     
     class Config:
-        orm_mode = True
         from_attributes = True
 
