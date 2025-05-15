@@ -1,7 +1,9 @@
-fastapi
-uvicorn
-sqlalchemy
-passlib
-bcrypt
-python-jose
-python-multipart
+fastapi>=0.68.0
+uvicorn>=0.15.0
+sqlalchemy>=1.4.23
+pymysql>=1.0.2
+python-dotenv>=0.19.0
+python-jose>=3.3.0
+passlib>=1.7.4
+pydantic>=1.8.2
+bcrypt>=3.2.0
