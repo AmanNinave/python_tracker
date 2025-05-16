@@ -30,7 +30,7 @@ class Task(Base):
     title = Column(String(255), nullable=True)  # Title of task
     description = Column(String(1000), nullable=True)    # Description of task ( Intigrate with markdown later)
 
-    status = Column(String(255), default='pending') # status :- pending, inprogress, completed
+    status = Column(String(255), default='pending') # status :- pending : task yet to start, inprogress : routines, completed : short tasks, scheduled : future task tasks
     
     indicators = Column(JSON, nullable=True)  # Storing list as JSON ( remarks,rating, priority)
     settings = Column(JSON, nullable=True)  # Storing list as JSON ( color, icon, type)
@@ -52,7 +52,7 @@ class TaskSchedule(Base):
     user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User
     task_id = Column(Integer, ForeignKey("tasks.id"))  # Foreign key to Tasks
 
-    task = relationship("Task", back_populates="task_schedules")  # Relationship with Event
+    task = relationship("Task", back_populates="task_schedules")  # Relationship with Task
     task_logs = relationship("TaskLog", back_populates="task_schedule")  # Relationship with TaskLog
 
 
@@ -61,11 +61,13 @@ class TaskLog(Base):
 
     id = Column(Integer, primary_key=True, index=True)  # Unique identifier for the log entry
 
-    start_time = Column(DateTime, nullable=False)   # Start time of the log entry
+    start_time = Column(DateTime, nullable=True)   # Start time of the log entry
     end_time = Column(DateTime, nullable=True)  # End time of the log entry
     remarks = Column(String(1000), nullable=True)  # Remarks for the log entry
 
     user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User
+    task_id = Column(Integer, ForeignKey("tasks.id"))  # Foreign key to Tasks
     task_schedule_id = Column(Integer, ForeignKey("task_schedule.id"))  # Foreign key to TaskSchedule
 
+    task = relationship("Task")  # Relationship with Task
     task_schedule = relationship("TaskSchedule", back_populates="task_logs")  # Relationship with TaskSchedule
