@@ -28,8 +28,8 @@ class TaskBase(BaseModel):
 
     status: str = 'pending'
 
-    indicators: Optional[Dict[str, str]] = {}  # Dictionary to store remarks, rating, status, priority
-    settings: Optional[Dict[str, str]] = {}  # Dictionary to store color, icon, type
+    indicators: Optional[Any] = {}  # Dictionary to store remarks, rating, status, priority
+    settings: Optional[Any] = {}  # Dictionary to store color, icon, type
 
 
 class Task(TaskBase):
