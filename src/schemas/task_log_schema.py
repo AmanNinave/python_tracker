@@ -10,6 +10,7 @@ class TaskLogBase(BaseModel):
     end_time: Optional[datetime] = None
     remarks: Optional[str] = None
     task_schedule_id: int
+    task_id: Optional[int] = None
 
 class TaskLogCreate(TaskLogBase):
     pass

@@ -2,6 +2,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from fastapi import HTTPException,status
+from datetime import datetime
 
 # File imports
 from ..schemas import task_log_schema
@@ -13,6 +14,8 @@ def create(db: Session, request: task_log_schema.TaskLogCreate, user_id: int):
         start_time=request.start_time,
         end_time=request.end_time,
         task_schedule_id=request.task_schedule_id,
+        task_id=request.task_id,
+        remarks=request.remarks,
 
         user_id=user_id,
     )
@@ -20,6 +23,19 @@ def create(db: Session, request: task_log_schema.TaskLogCreate, user_id: int):
     db.commit()
     db.refresh(new_log)
     return new_log
+
+def get_by_duration(db: Session, user_id: int, start_date: datetime, end_date: datetime, skip: int = 0, limit: int = 100):
+    """Get task logs within a specific date range."""
+    return db.query(models.TaskLog)\
+        .filter(
+            models.TaskLog.user_id == user_id,
+            models.TaskLog.start_time >= start_date,
+            models.TaskLog.start_time <= end_date
+        )\
+        .order_by(models.TaskLog.start_time.desc())\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
 
 def get(db: Session, log_id: int, user_id: int):
     return db.query(models.TaskLog).filter(models.TaskLog.user_id == user_id).filter(models.TaskLog.id == log_id).first()

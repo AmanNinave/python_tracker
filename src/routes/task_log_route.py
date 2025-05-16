@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import datetime
 
 # File imports
 from .. import database
@@ -21,6 +22,26 @@ get_db = database.get_db
 def create(request: task_log_schema.TaskLogCreate, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
     return task_log_controller.create(db, request, user.id)
 
+@router.get("/duration/", response_model=list[task_log_schema.TaskLogResponse])
+def get_logs_by_duration(
+    start_date: datetime, 
+    end_date: datetime = None,
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(get_db), 
+    user: models.User = Depends(get_current_user)
+):
+    """
+    Get task logs within a specific date range.
+    - start_date: Required start date (format: YYYY-MM-DDTHH:MM:SS)
+    - end_date: Optional end date (defaults to current time if not provided)
+    """
+    if end_date is None:
+        end_date = datetime.now()
+        
+    logs = task_log_controller.get_by_duration(db, user.id, start_date, end_date, skip, limit)
+    return logs
+
 @router.get("/{id}", response_model=task_log_schema.TaskLogResponse)
 def read(id: int, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
     log = task_log_controller.get(db, id, user.id)
@@ -29,8 +50,10 @@ def read(id: int, db: Session = Depends(get_db), user: models.User = Depends(get
     return log
 
 @router.get("/", response_model=list[task_log_schema.TaskLogResponse])
-def read(skip: int = 0, limit: int = 10, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
+def read(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
     return task_log_controller.get_all(db, skip, limit, user.id)
+
+
 
 @router.put("/{id}", response_model=task_log_schema.TaskLogResponse)
 def update(id: int, request: task_log_schema.TaskLogUpdate, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
