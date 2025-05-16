@@ -1,5 +1,5 @@
 # Library imports
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -55,8 +55,8 @@ class TaskUpdate(BaseModel):
 
     status: str = 'pending'
 
-    indicators: Optional[Dict[str, str]] = {}  # Dictionary to store remarks, rating, status, priority
-    settings: Optional[Dict[str, str]] = {}  # Dictionary to store color, icon, type
+    indicators: Optional[Any] = {}  # Dictionary to store remarks, rating, status, priority
+    settings: Optional[Any] = {}  # Dictionary to store color, icon, type
 
 
 # Schema for Returning Task Details

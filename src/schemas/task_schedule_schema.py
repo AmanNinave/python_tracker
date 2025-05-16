@@ -6,7 +6,7 @@ from .task_log_schema import TaskLogResponse
 from .task_schema import Task
 
 class TaskScheduleBase(BaseModel):
-    start_time: datetime
+    start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
     remarks: Optional[str] = None
 
