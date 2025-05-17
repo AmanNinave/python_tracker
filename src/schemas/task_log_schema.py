@@ -23,7 +23,7 @@ class TaskLogUpdate(BaseModel):
 
 class TaskLogResponse(TaskLogBase):
     id: int
-
+    task : Task   # Task associated with this schedule
     class Config:
         from_attributes = True
 
