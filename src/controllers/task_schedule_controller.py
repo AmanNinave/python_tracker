@@ -2,6 +2,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from fastapi import HTTPException,status
+from datetime import datetime
 
 # File imports
 from ..schemas import task_schedule_schema
@@ -21,6 +22,19 @@ def create(db: Session, request: task_schedule_schema.TaskScheduleCreate, user_i
     db.commit()
     db.refresh(new_schedule)
     return new_schedule
+
+def get_by_duration(db: Session, user_id: int, start_date: datetime, end_date: datetime, skip: int = 0, limit: int = 100):
+    """Get task schedules within a specific date range."""
+    return db.query(models.TaskSchedule)\
+        .filter(
+            models.TaskSchedule.user_id == user_id,
+            models.TaskSchedule.start_time >= start_date,
+            models.TaskSchedule.end_time <= end_date
+        )\
+        .order_by(models.TaskSchedule.start_time.asc())\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
 
 def get(db: Session, schedule_id: int, user_id: int):
     return db.query(models.TaskSchedule).filter(models.TaskSchedule.user_id == user_id).filter(models.TaskSchedule.id == schedule_id).first()

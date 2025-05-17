@@ -32,7 +32,7 @@ def get_by_duration(db: Session, user_id: int, start_date: datetime, end_date: d
             models.TaskLog.start_time >= start_date,
             models.TaskLog.start_time <= end_date
         )\
-        .order_by(models.TaskLog.start_time.desc())\
+        .order_by(models.TaskLog.start_time.asc())\
         .offset(skip)\
         .limit(limit)\
         .all()
