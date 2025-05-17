@@ -29,7 +29,7 @@ def create(request: task_schema.TaskCreate, db: Session , user_id: int):
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
-    return {"success": True}
+    return new_task
 
 def get_all(db: Session , user_id: int):
     return db.query(models.Task).filter(models.Task.user_id == user_id).all()

@@ -17,7 +17,7 @@ router = APIRouter(
 
 get_db = database.get_db
 
-@router.post("/", status_code=status.HTTP_201_CREATED,)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=task_schema.TaskResponse)
 def create(request: task_schema.TaskCreate, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
     return task_controller.create(request, db , user.id)
 
