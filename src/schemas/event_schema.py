@@ -22,6 +22,7 @@ class EventCreate(EventBase):
 
 class EventResponse(EventBase):
     id: int      # Task associated with this schedule
+    type: str = "event"
     class Config:
         from_attributes = True
 
