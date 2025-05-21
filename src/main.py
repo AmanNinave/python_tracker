@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import engine
 from .models import models
 from .routes import user_route, authentication_route, task_route, task_schedule_route, task_log_route
+from .routes import event_route
 
 app = FastAPI()
 
@@ -17,7 +18,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Comment this out for Vercel deployment
 models.Base.metadata.create_all(engine)
 
 app.include_router(authentication_route.router)
@@ -25,6 +25,7 @@ app.include_router(user_route.router)
 app.include_router(task_route.router)
 app.include_router(task_schedule_route.router)
 app.include_router(task_log_route.router)
+app.include_router(event_route.router)
 
 @app.get("/")
 def root():

@@ -71,3 +71,23 @@ class TaskLog(Base):
 
     task = relationship("Task")  # Relationship with Task
     task_schedule = relationship("TaskSchedule", back_populates="task_logs")  # Relationship with TaskSchedule
+
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True, index=True)  # Unique identifier for the event entry
+
+    start_time = Column(DateTime, nullable=True)   # Start time of the event entry
+    end_time = Column(DateTime, nullable=True)  # End time of the event entry
+
+    category = Column(String(255), nullable=True)  # Category of event (e.g., work, routine, personal)
+    sub_category = Column(String(255), nullable=True)  # Sub-category of event (e.g., sleep, frontend, backend)
+
+    title = Column(String(255), nullable=True)  # Title of event
+    description = Column(String(1000), nullable=True)  # Description of event ( Intigrate with markdown later)
+
+    indicators = Column(JSON, nullable=True)  # Storing list as JSON ( remarks,rating, priority)
+    settings = Column(JSON, nullable=True)  # Storing list as JSON ( color, icon, type)
+
+    user_id = Column(Integer, ForeignKey("users.id"))  # Foreign key to User
